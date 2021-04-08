@@ -25,6 +25,7 @@ To be able to connect to 'Bastion Host', check in the AWS console panel 'EC2/Ins
 
 If the instances are already associated to the target group, no change takes place.
 
+
 ## Set permissions
 
 ```sh
