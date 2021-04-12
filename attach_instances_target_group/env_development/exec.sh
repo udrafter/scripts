@@ -6,6 +6,7 @@ instances=""
 array=( cms-dev worker-dev )
 for i in "${array[@]}"
 do
+  # get instance id
   di_cmd="aws ec2 describe-instances --filters \"Name=tag:Name,Values=$i\" \
   --query \"Reservations[*].Instances[*].{instance_id: InstanceId}\" \
   --output json --region eu-west-2 \
@@ -13,6 +14,23 @@ do
 
   inst=$(eval "$di_cmd" | jq -r '.[]')
   instances+="Id=${inst} "
+
+  # get security group id attached to instance
+  gi_cmd="aws ec2 describe-instances --filters \"Name=tag:Name,Values=$i\" \
+  --query \"Reservations[*].Instances[*].SecurityGroups[*].{group_id: GroupId}\" \
+  --output json --region eu-west-2 \
+  | jq '.[][][] | {grid: .group_id}'"  # add --profile udrafter if needed
+
+  gi=$(eval "$gi_cmd" | jq -r '.[]')
+  echo "security group $gi for instance $ins"
+
+  # attach SSH-from-Bastion-host security group to instance
+  at_sg_ins_cmd="aws ec2 modify-instance-attribute --instance-id $inst \
+  --groups $gi sg-0f2354b56f41e2f30 --region eu-west-2" # --profile udrafter
+
+  at_sg_ins=$(eval "$at_sg_ins_cmd")
+  echo "Attached SSH-from-Bastion-host to instance $inst"
+
 done
 
 echo "Instances to attach: $instances"
