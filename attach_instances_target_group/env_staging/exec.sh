@@ -26,7 +26,7 @@ do
 
   # attach SSH-from-Bastion-host security group to instance
   at_sg_ins_cmd="aws ec2 modify-instance-attribute --instance-id $inst \
-  --groups $gi sg-0f2354b56f41e2f30 --region eu-west-2" # --profile udrafter
+  --groups $gi sg-0f2354b56f41e2f30 sg-0b658e69fa5b63291 --region eu-west-2" # --profile udrafter
 
   at_sg_ins=$(eval "$at_sg_ins_cmd")
   echo "Attached SSH-from-Bastion-host to instance $inst"
