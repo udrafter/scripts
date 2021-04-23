@@ -24,9 +24,9 @@ do
   gi=$(eval "$gi_cmd" | jq -r '.[]')
   echo "security group $gi for instance $ins"
 
-  # attach SSH-from-Bastion-host + dev load balancer security group to instance 
+  # attach SSH-from-Bastion-host security group to instance 
   at_sg_ins_cmd="aws ec2 modify-instance-attribute --instance-id $inst \
-  --groups $gi sg-0f2354b56f41e2f30 sg-06ca669f5c632bea0 --region eu-west-2 " # --profile udrafter
+  --groups $gi sg-0f2354b56f41e2f30 --region eu-west-2 " # --profile udrafter
 
   at_sg_ins=$(eval "$at_sg_ins_cmd")
   echo "Attached SSH-from-Bastion-host to instance $inst"
