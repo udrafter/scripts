@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo "Attaching staging instances to target group 'target-group-test' ..."
+echo "Attaching staging instances to SSH-from-Bastion-host security group"
 
 instances=""
 array=( cms-staging worker-staging )
@@ -32,13 +32,13 @@ do
   echo "Attached SSH-from-Bastion-host to instance $inst"
 done
 
-echo "Instances to attach: $instances"
+# echo "Instances to attach: $instances"
 
-rt_cmd="aws elbv2 register-targets \
---target-group-arn arn:aws:elasticloadbalancing:eu-west-2:333205879969:targetgroup/target-group-test/2d6e7b704bed5d46 \
---targets $instances --region eu-west-2" # add --profile udrafter if needed
+# rt_cmd="aws elbv2 register-targets \
+# --target-group-arn arn:aws:elasticloadbalancing:eu-west-2:333205879969:targetgroup/target-group-test/2d6e7b704bed5d46 \
+# --targets $instances --region eu-west-2" # add --profile udrafter if needed
 
-z=$(eval "$rt_cmd")
-echo $z
+# z=$(eval "$rt_cmd")
+# echo $z
 
-echo "Instances $instances attached to target group 'target-group-test'"
+# echo "Instances $instances attached to target group 'target-group-test'"
